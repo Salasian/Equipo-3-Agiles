@@ -7,3 +7,140 @@ body {
 body h1 {
     font-size:larger;
 }
+
+header {
+    list-style-type: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(142, 154, 255);
+}
+
+.temporizador{
+    text-align: left;
+}
+
+.opciones{
+    text-align: right;  
+}
+
+.pomodoros{
+    list-style-type: none;
+    text-align: left;
+    border: black 1px;
+    overflow: hidden;
+    background-color: rgb(140, 94, 196);
+}
+
+UL.pomodoros LI
+{
+PADDING-RIGHT: 2px;
+DISPLAY: inline;
+PADDING-LEFT: 2px;
+FLOAT: left;
+PADDING-BOTTOM: 2px;
+WIDTH: 30%;
+PADDING-TOP: 2px
+}
+
+
+/* .opciones,
+.opciones:hover,
+.opciones:active 
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #007da7;
+  text-align: right;
+} */
+
+
+/* body {
+    font-family: 'Courier New', monospace;
+} */
+/* 
+h1 {
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+h3 {
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+header {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(187, 132, 254);
+}
+
+lateral{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(187, 132, 254);
+}
+
+html{
+height:100%;
+}
+main{
+width: 100%;
+height: auto;
+margin:0 auto;
+background: aliceblue;
+}
+.lateral{
+box-sizing: border-box;
+width: max(8%, 200px);
+display: inline-block;
+position: fixed; padding-top: 0px
+}
+.principal{
+margin-left: max(10%, 200px);
+padding: 0 20px;
+height: 100%;
+text-align: justify;
+background:white;
+}
+/*Hasta aquí ya tenemos un menu lateral fijo,
+ahora viene ponerlo bonito
+.lateral header{
+font-weight: bold;
+font-size: 1.5rem;
+text-align: center;
+border-bottom: 1px solid black;
+background: aqua
+}
+.lateral ul{
+list-style:none;
+padding-left:0;
+margin-top:0;
+}
+.lateral ul li{
+display:block;
+position: relative;
+padding: 10px 10px;
+margin-left:0;
+border-bottom:1px solid #060696
+}
+.lateral ul li a{
+color: black;
+text-decoration:none;
+}
+.lateral ul li a:after{
+content: ' ';
+position:absolute;
+width: 100%;
+height: 100%;
+top:0;
+left:0;
+}
+.lateral ul li:hover, .lateral ul li:hover a{
+background: blue;
+color: white;
+} 

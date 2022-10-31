@@ -8,7 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
   <link href="./index.css" rel = "stylesheet"/>
-  <title>Pom Pom</title>
+  <title>Pom Pom </title>
 </head>
 
 <body>
@@ -26,17 +26,20 @@
           </h1>
         </nav>
       </div>
-      <button id = "opciones"> Opciones </button>
+      <nav class ="opciones">
+      <button>Opciones</button>
+      </nav>
     </header>
 
     <!-- Fin de NavBar con título settings y tiempo -->
     <!-- Sidedbar de tableros -->
+ 
     <aside>
-      <div class="pomodoros">
-        <div class="pomodoro">
+      <ul class="pomodoros">
+        <li class="pomodoro">
           <h3> Aquí va un pomodoro </h3>
-        </div>
-      </div>
+        </li>
+      </ul>
     </aside>
     <!-- Fin de Sidedbar de tableros -->
     <!-- Tablero con secciones de estados -->
@@ -55,7 +58,7 @@
             </div>
           </div>
         </div>        
-      </div>
+      </ul>
       <!--Fin de Cuadro de estado Pendientes -->
 
       <!-- Cuadro de estado En progreso -->
@@ -68,7 +71,7 @@
             <h3> Aquí va una tarea</h3>
             <div class = "botones">
               <button id ="mover"> Mover </button>
-              <button id = "eliminar"> Eliminar </button>
+              <button id = "eliminar"> Eliminar</button>
             </div>
           </div>
         </div>        
