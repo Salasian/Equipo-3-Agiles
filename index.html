@@ -1,107 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es-mx">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
-  <link href="./index.css" rel = "stylesheet"/>
-  <title>Pom Pom </title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pom-Pom</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+  <link rel="stylesheet" href="index.css">
 </head>
-
 <body>
-  <!-- El cuerpo de la página -->
-  <hero>
-    <!-- NavBar con título settings y tiempo -->
-    <header>
-      <div class="temporizador">
-        <h3> Aquí va el timer </h3>
+  
+  <nav class="row bg-primary">
+    <div class="col-md-2 bg-info">
+      <div class="card d-flex align-items-center justify-content-center m-3">
+        <h6>25:00</h6>
       </div>
-      <div>
-        <nav>
-          <h1>
-            POM-POM
-          </h1>
-        </nav>
+      <div class="card d-flex align-items-center justify-content-center m-3">
+        <h6>5:00</h6>
       </div>
-      <nav class ="opciones">
-      <button>Opciones</button>
-      </nav>
-    </header>
+    </div>
+    <div class="col-md-10 d-flex align-items-center justify-content-center">
+      <h1>Pom-Pom</h1>
+    </div>
+  </nav>
 
-    <!-- Fin de NavBar con título settings y tiempo -->
-    <!-- Sidedbar de tableros -->
- 
-    <aside>
-      <ul class="pomodoros">
-        <li class="pomodoro">
-          <h3> Aquí va un pomodoro </h3>
-        </li>
-      </ul>
+  <div class="row">
+    <aside class="col-md-2 bg-primary">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="card mt-3 align-items-center">
+              <h6>Pomodoro 1</h6>
+            </div>
+            <div class="card mt-3 align-items-center">
+              <h6>Pomodoro 2</h6>
+            </div>
+            <div class="card mt-3 align-items-center">
+              <h6>Pomodoro 3</h6>
+            </div>
+          </div>
+        </div>
+      </div>
     </aside>
-    <!-- Fin de Sidedbar de tableros -->
-    <!-- Tablero con secciones de estados -->
-    <section>
-      <!-- Cuadro de estado Pendientes -->
-      <div id="tablero-pendientes">
-        <div class="titulo">
-          <h2> Pendientes </h2>
-        </div>
-        <div class = "tablero">
-          <div class = "tarea">
-            <h3> Aquí va una tarea</h3>
-            <div class = "botones">
-              <button id ="mover"> Mover </button>
-              <button id = "eliminar"> Eliminar </button>
+    <section class="col-md-10">
+      <div class="row mt-3">
+        <div class="col-4">
+          <div class="list-container">
+            <div class="list-title card d-flex justify-content-center align-items-center">
+              <h3>Pendiente</h3>  
+            </div>
+            <div class="list mt-3 card">
+              <div class="task m-2">
+                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
+                  <div class="item">
+                    <h6 style="position:absolute; right:1rem;">x</h6>
+                  </div>
+                  <h4>Item 1</h4>
+                </div>
+                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
+                  <div class="item">
+                    <h6 style="position:absolute; right:1rem;">x</h6>
+                  </div>
+                  <h4>Item 1</h4>
+                </div>
+                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
+                  <div class="item">
+                    <h6 style="position:absolute; right:1rem;">x</h6>
+                  </div>
+                  <h4>Item 1</h4>
+                </div>
+              </div>
             </div>
           </div>
-        </div>        
-      </ul>
-      <!--Fin de Cuadro de estado Pendientes -->
-
-      <!-- Cuadro de estado En progreso -->
-      <div id="tablero-proceso">
-        <div class="titulo">
-          <h2> Pendientes </h2>
         </div>
-        <div class = "tablero">
-          <div class = "tarea">
-            <h3> Aquí va una tarea</h3>
-            <div class = "botones">
-              <button id ="mover"> Mover </button>
-              <button id = "eliminar"> Eliminar</button>
+        <div class="col-4">
+          <div class="list-container">
+            <div class="list-title card d-flex justify-content-center align-items-center">
+              <h3>En proceso</h3>  
+            </div>
+            <div class="list mt-3 card">
+              <div class="task m-2">
+                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
+                  <div class="item">
+                    <h6 style="position:absolute; right:1rem;">x</h6>
+                  </div>
+                  <h4>Item 1</h4>
+                </div>
+                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
+                  <div class="item">
+                    <h6 style="position:absolute; right:1rem;">x</h6>
+                  </div>
+                  <h4>Item 1</h4>
+                </div>
+                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
+                  <div class="item">
+                    <h6 style="position:absolute; right:1rem;">x</h6>
+                  </div>
+                  <h4>Item 1</h4>
+                </div>
+              </div>
             </div>
           </div>
-        </div>        
+        </div>
+        <div class="col-4">
+          <div class="list-container">
+            <div class="list-title card d-flex justify-content-center align-items-center">
+              <h3>Completados</h3>  
+            </div>
+            <div class="list mt-3 card">
+              <div class="task m-2">
+                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
+                  <div class="item">
+                    <h6 style="position:absolute; right:1rem;">x</h6>
+                  </div>
+                  <h4>Item 1</h4>
+                </div>
+                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
+                  <div class="item">
+                    <h6 style="position:absolute; right:1rem;">x</h6>
+                  </div>
+                  <h4>Item 1</h4>
+                </div>
+                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
+                  <div class="item">
+                    <h6 style="position:absolute; right:1rem;">x</h6>
+                  </div>
+                  <h4>Item 1</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <!--Fin de Cuadro de estado En progreso -->
-
-      <!-- Cuadro de estado Terminados -->
-      <div id="tablero-terminados">
-        <div class="titulo">
-          <h2> Pendientes </h2>
-        </div>
-        <div class = "tablero">
-          <div class = "tarea">
-            <h3> Aquí va una tarea</h3>
-            <div class = "botones">
-              <button id ="mover"> Mover </button>
-              <button id = "eliminar"> Eliminar </button>
-            </div>
-          </div>
-        </div>        
-      </div>
-      <!--Fin de Cuadro de estado Terminados -->
-
-      <button id ="nueva-tarea"> Nueva tarea </button>
+      
     </section>
-    <!-- Fin de Tablero con secciones de estados -->
-  </hero>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
-    integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
-    crossorigin="anonymous"></script>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
 </body>
-
 </html>
