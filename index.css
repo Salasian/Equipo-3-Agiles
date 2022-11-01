@@ -1,35 +1,57 @@
 /*Importar la fuente que utilizaremos*/
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
 
-body {    
-    font-family: 'Poppins', sans-serif;
-    height: 100vh;
+body {
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
 }
 
 .bg-red {
-    background-color: red;
+  background-color: red;
 }
 
 .bg-green {
-    background-color: green;
+  background-color: green;
 }
 
 .bg-blue {
-    background-color: blue;
+  background-color: blue;
 }
 
-#timer-container{
-    position: absolute;
-    left: 1%;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
+#timer-container {
+  position: absolute;
+  left: 1%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
 }
 
-.row{
-    margin: 0;
+.row {
+  margin: 0;
 }
 
-aside{
-    height: 90vh;
+aside {
+  height: 90vh;
+}
+
+.campo-texto {
+  resize: none;
+  width: 210px;
+  height: 165px;
+}
+
+.btn-subir {
+  width: 210px;
+}
+
+.btn-subir:hover {
+  background-color: darkgrey;
+}
+
+.btn-subir:active {
+  background-color: rgb(128, 128, 128);
+}
+
+.hidden {
+  visibility: hidden;
 }

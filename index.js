@@ -1,30 +1,135 @@
 const btnSubir = document.querySelector(".btn-subir");
-const btnMostrar = document.querySelector(".btn-mostrar");
-const nombre = document.querySelector(".campo-nombre");
+const titulo = document.querySelector(".campo-titulo");
 const texto = document.querySelector(".campo-texto");
-const resultados = document.querySelector(".resultados");
+const pendientes = document.querySelector(".pendientes");
+const proceso = document.querySelector(".proceso");
+const terminado = document.querySelector(".terminado");
 const btnTemporizador = document.querySelector(".btn-temporizador");
 const tiempo = document.querySelector(".tiempo");
+const artTemporizador = document.querySelector(".artTemporizdor");
 
 let tareas;
-let temporizdor = 1500000;
+let tiempoPomodoro = 1500000;
+let estado = true;
 
-btnTemporizador.addEventListener("click", () => {
-  btnTemporizador.textContent = "Pausar Temporizador";
-  setTimeout(() => {}, 1000);
-});
+const acomodar = () => {
+  tareas.map((tarea, index) => {
+    if (tarea.estado === "Pendiente") {
+      pendientes.innerHTML += `<div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">${tarea.titulo}</h5>
+                  <p class="card-text">${tarea.texto}</p>
+                  <div class="dropdown">
+                      <button data-id=${index}
+                        class="btn btn-secondary dropdown-toggle btn-estado "
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        ${tarea.estado}
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><button class="dropdown-item">Pendiente</button></li>
+                        <li><button class="dropdown-item">En proceso</button></li>
+                        <li><button class="dropdown-item">Terminado</button></li>
+                      </ul>
+                  </div>
+                </div>
+              </div>`;
+    } else if (tarea.estado === "En proceso") {
+      proceso.innerHTML += `<div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">${tarea.titulo}</h5>
+                  <p class="card-text">${tarea.texto}</p>
+                  <div class="dropdown">
+                      <button data-id=${index}
+                        class="btn btn-secondary dropdown-toggle btn-estado "
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        ${tarea.estado}
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><button class="dropdown-item">Pendiente</button></li>
+                        <li><button class="dropdown-item">En proceso</button></li>
+                        <li><button class="dropdown-item">Terminado</button></li>
+                      </ul>
+                  </div>
+                </div>
+              </div>`;
+    } else {
+      terminado.innerHTML += `<div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">${tarea.titulo}</h5>
+                  <p class="card-text">${tarea.texto}</p>
+                  <div class="dropdown">
+                      <button data-id=${index}
+                        class="btn btn-secondary dropdown-toggle btn-estado "
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        ${tarea.estado}
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><button class="dropdown-item">Pendiente</button></li>
+                        <li><button class="dropdown-item">En proceso</button></li>
+                        <li><button class="dropdown-item">Terminado</button></li>
+                      </ul>
+                  </div>
+                </div>
+              </div>`;
+    }
+    if (proceso.innerHTML && artTemporizador.classList.contains("hidden")) {
+      artTemporizador.classList.remove("hidden");
+    } else {
+      artTemporizador.classList.add("hidden");
+    }
+  });
+};
+
+function millisToMinutsAndSeconds(millis) {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+}
+
+function actualizarTiempo() {
+  if (btnTemporizador.textContent == "Pausar Temporizador") {
+    btnTemporizador.textContent = "Reanudar Temporizador";
+    estado = false;
+  } else {
+    btnTemporizador.textContent = "Pausar Temporizador";
+    estado = true;
+  }
+
+  let temporizador = setInterval(() => {
+    if (tiempoPomodoro == 0) {
+      alert("Se terminó el tiempo");
+    } else if (!estado) {
+      clearInterval(temporizador);
+      alert("El temporizador se ha pausado");
+    } else {
+      tiempoPomodoro -= 1000;
+      tiempo.textContent = millisToMinutsAndSeconds(tiempoPomodoro);
+    }
+  }, 1000);
+}
+
+btnTemporizador.addEventListener("click", actualizarTiempo);
 
 btnSubir.addEventListener("click", () => {
   let repetido = false;
   const contenido = {
-    nombre: nombre.value,
+    titulo: titulo.value,
     texto: texto.value,
     estado: "Pendiente",
   };
-  if (contenido.nombre && contenido.estado && contenido.texto) {
+  if (contenido.titulo && contenido.estado && contenido.texto) {
     tareas.filter((tarea) => {
       if (
-        tarea.nombre === contenido.nombre ||
+        tarea.titulo === contenido.titulo ||
         tarea.texto === contenido.texto
       ) {
         repetido = true;
@@ -60,8 +165,8 @@ const formateoBotones = () => {
         }
         return tarea;
       });
-
       localStorage.setItem("tareas", JSON.stringify(tareas));
+      location.reload();
     });
   });
 };
@@ -82,33 +187,7 @@ const colorearBotones = () => {
 };
 
 const mostrar = () => {
-  resultados.innerHTML = tareas
-    .map((tarea, index) => {
-      return `<div>
-        <h2 style="background-color: rgb(0, 51, 255); color: white">
-          ${tarea.nombre}
-        </h2>
-        <h3 style="background-color: rgb(0, 136, 255); color: white">
-          ${tarea.texto}
-        </h3>
-        <div class="dropdown">
-          <button data-id=${index}
-            class="btn btn-secondary dropdown-toggle btn-estado "
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            ${tarea.estado}
-          </button>
-          <ul class="dropdown-menu">
-            <li><button class="dropdown-item">Pendiente</button></li>
-            <li><button class="dropdown-item">En proceso</button></li>
-            <li><button class="dropdown-item">Terminado</button></li>
-          </ul>
-        </div>
-      </div>`;
-    })
-    .join("");
+  acomodar();
   formateoBotones();
   colorearBotones();
 };

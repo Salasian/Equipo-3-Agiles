@@ -1,140 +1,116 @@
 <!DOCTYPE html>
 <html lang="es-mx">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pom-Pom</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
-  <link rel="stylesheet" href="index.css">
-</head>
-<body>
-  
-  <nav class="row bg-primary">
-    <div class="col-md-2 bg-info">
-      <div class="card d-flex align-items-center justify-content-center m-3">
-        <h6>25:00</h6>
-      </div>
-      <div class="card d-flex align-items-center justify-content-center m-3">
-        <h6>5:00</h6>
-      </div>
-    </div>
-    <div class="col-md-10 d-flex align-items-center justify-content-center">
-      <h1>Pom-Pom</h1>
-    </div>
-  </nav>
-
-  <div class="row">
-    <aside class="col-md-2 bg-primary">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="card mt-3 align-items-center">
-              <h6>Pomodoro 1</h6>
-            </div>
-            <div class="card mt-3 align-items-center">
-              <h6>Pomodoro 2</h6>
-            </div>
-            <div class="card mt-3 align-items-center">
-              <h6>Pomodoro 3</h6>
-            </div>
-          </div>
-        </div>
-      </div>
-    </aside>
-    <section class="col-md-10">
-      <div class="row mt-3">
-        <div class="col-4">
-          <div class="list-container">
-            <div class="list-title card d-flex justify-content-center align-items-center">
-              <h3>Pendiente</h3>  
-            </div>
-            <div class="list mt-3 card">
-              <div class="task m-2">
-                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
-                  <div class="item">
-                    <h6 style="position:absolute; right:1rem;">x</h6>
-                  </div>
-                  <h4>Item 1</h4>
-                </div>
-                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
-                  <div class="item">
-                    <h6 style="position:absolute; right:1rem;">x</h6>
-                  </div>
-                  <h4>Item 1</h4>
-                </div>
-                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
-                  <div class="item">
-                    <h6 style="position:absolute; right:1rem;">x</h6>
-                  </div>
-                  <h4>Item 1</h4>
-                </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pom-Pom</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+      integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="row bg-primary">
+      <section class="col-md-2 bg-info">
+        <article
+          class="card d-flex align-items-center justify-content-center m-3"
+        >
+          <h6 class="tiempo">25:00</h6>
+        </article>
+        <article
+          class="card d-flex align-items-center justify-content-center m-3"
+        >
+          <h6>5:00</h6>
+        </article>
+      </section>
+      <section
+        class="col-md-10 d-flex align-items-center justify-content-center"
+      >
+        <h1>Pom-Pom</h1>
+      </section>
+    </nav>
+    <!-- Fin de Navbar -->
+    <!-- Main -->
+    <main class="row">
+      <aside class="col-md-2 bg-primary">
+        <section class="container">
+          <div class="row col-12">
+            <article class="card mt-3 p-2 align-items-center">
+              <button type="button" class="align-center btn btn-subir">
+                Subir tarea
+              </button>
+              <div class="detalles mx-auto">
+                <input
+                  type="text"
+                  placeholder="Título"
+                  class="campo-titulo p-2 m-2"
+                  maxlength="15"
+                />
+                <textarea
+                  type="text"
+                  placeholder="Descripción"
+                  class="campo-texto p-2 m-2"
+                  maxlength="99"
+                ></textarea>
               </div>
-            </div>
+            </article>
+            <article
+              class="card mt-3 p-2 align-items-center hidden artTemporizdor"
+            >
+              <button
+                type="button"
+                class="align-center btn bg-white btn-temporizador"
+              >
+                Iniciar Temporizador
+              </button>
+            </article>
           </div>
+        </section>
+      </aside>
+      <section class="col-md-10">
+        <div class="row mt-3">
+          <article class="col-4 list-container">
+            <section class="list-title card d-flex align-items-center">
+              <h3>Pendiente</h3>
+            </section>
+            <section class="list mt-3">
+              <div class="task pendientes d-flex flex-column"></div>
+            </section>
+          </article>
+          <article class="col-4 list-container">
+            <section class="list-title card d-flex align-items-center">
+              <h3>En proceso</h3>
+            </section>
+            <section class="list mt-3">
+              <div class="task proceso d-flex flex-column"></div>
+            </section>
+          </article>
+          <article class="col-4 list-container">
+            <section class="list-title card d-flex align-items-center">
+              <h3>Terminado</h3>
+            </section>
+            <section class="list mt-3">
+              <div class="task terminado d-flex flex-column"></div>
+            </section>
+          </article>
         </div>
-        <div class="col-4">
-          <div class="list-container">
-            <div class="list-title card d-flex justify-content-center align-items-center">
-              <h3>En proceso</h3>  
-            </div>
-            <div class="list mt-3 card">
-              <div class="task m-2">
-                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
-                  <div class="item">
-                    <h6 style="position:absolute; right:1rem;">x</h6>
-                  </div>
-                  <h4>Item 1</h4>
-                </div>
-                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
-                  <div class="item">
-                    <h6 style="position:absolute; right:1rem;">x</h6>
-                  </div>
-                  <h4>Item 1</h4>
-                </div>
-                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
-                  <div class="item">
-                    <h6 style="position:absolute; right:1rem;">x</h6>
-                  </div>
-                  <h4>Item 1</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="list-container">
-            <div class="list-title card d-flex justify-content-center align-items-center">
-              <h3>Completados</h3>  
-            </div>
-            <div class="list mt-3 card">
-              <div class="task m-2">
-                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
-                  <div class="item">
-                    <h6 style="position:absolute; right:1rem;">x</h6>
-                  </div>
-                  <h4>Item 1</h4>
-                </div>
-                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
-                  <div class="item">
-                    <h6 style="position:absolute; right:1rem;">x</h6>
-                  </div>
-                  <h4>Item 1</h4>
-                </div>
-                <div class="list-item card d-flex flex-column justify-content-center align-items-center mt-3">
-                  <div class="item">
-                    <h6 style="position:absolute; right:1rem;">x</h6>
-                  </div>
-                  <h4>Item 1</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-    </section>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
-</body>
+      </section>
+    </main>
+    <!-- Fin del Main -->
+    <script src="index.js"></script>
+  </body>
 </html>
