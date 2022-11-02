@@ -36,7 +36,7 @@ aside {
 
 .campo-texto {
   resize: none;
-  width: 210px;
+  width: inherit;
   height: 165px;
 }
 
@@ -52,6 +52,22 @@ aside {
   background-color: rgb(128, 128, 128);
 }
 
+.campo-texto {
+  overflow-y: auto;
+}
+
 .hidden {
   visibility: hidden;
+}
+
+.task {
+  background-color: aliceblue;
+}
+
+.colocar {
+  position: absolute;
+  width: 40px;
+  right: 0;
+  top: 0;
+  border-bottom-left-radius: 50px;
 }

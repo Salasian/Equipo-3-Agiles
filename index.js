@@ -12,81 +12,49 @@ let tareas;
 let tiempoPomodoro = 1500000;
 let estado = true;
 
+const tareaFormato = ({ titulo, texto, estado }, index) => {
+  return `<div class="card m-2 box">
+                <div class="card-body">
+                  <h5 class="card-title">${titulo}</h5>
+                  <p class="card-text">${texto}</p>
+                  <button class="btn-primary colocar"><i class="bi bi-arrow-up-circle"></i></button>
+                  <div class="dropdown">
+                      <button data-id=${index}
+                        class="btn btn-secondary dropdown-toggle btn-estado "
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        ${estado}
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><button class="dropdown-item">Pendiente</button></li>
+                        <li><button class="dropdown-item">En proceso</button></li>
+                        <li><button class="dropdown-item">Terminado</button></li>
+                      </ul>
+                  </div>
+                </div>
+              </div>`;
+};
+
 const acomodar = () => {
+  pendientes.innerHTML = "";
+  proceso.innerHTML = "";
+  terminado.innerHTML = "";
   tareas.map((tarea, index) => {
     if (tarea.estado === "Pendiente") {
-      pendientes.innerHTML += `<div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">${tarea.titulo}</h5>
-                  <p class="card-text">${tarea.texto}</p>
-                  <div class="dropdown">
-                      <button data-id=${index}
-                        class="btn btn-secondary dropdown-toggle btn-estado "
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        ${tarea.estado}
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><button class="dropdown-item">Pendiente</button></li>
-                        <li><button class="dropdown-item">En proceso</button></li>
-                        <li><button class="dropdown-item">Terminado</button></li>
-                      </ul>
-                  </div>
-                </div>
-              </div>`;
+      pendientes.innerHTML += tareaFormato(tarea, index);
     } else if (tarea.estado === "En proceso") {
-      proceso.innerHTML += `<div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">${tarea.titulo}</h5>
-                  <p class="card-text">${tarea.texto}</p>
-                  <div class="dropdown">
-                      <button data-id=${index}
-                        class="btn btn-secondary dropdown-toggle btn-estado "
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        ${tarea.estado}
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><button class="dropdown-item">Pendiente</button></li>
-                        <li><button class="dropdown-item">En proceso</button></li>
-                        <li><button class="dropdown-item">Terminado</button></li>
-                      </ul>
-                  </div>
-                </div>
-              </div>`;
+      proceso.innerHTML += tareaFormato(tarea, index);
     } else {
-      terminado.innerHTML += `<div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">${tarea.titulo}</h5>
-                  <p class="card-text">${tarea.texto}</p>
-                  <div class="dropdown">
-                      <button data-id=${index}
-                        class="btn btn-secondary dropdown-toggle btn-estado "
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        ${tarea.estado}
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><button class="dropdown-item">Pendiente</button></li>
-                        <li><button class="dropdown-item">En proceso</button></li>
-                        <li><button class="dropdown-item">Terminado</button></li>
-                      </ul>
-                  </div>
-                </div>
-              </div>`;
-    }
-    if (proceso.innerHTML && artTemporizador.classList.contains("hidden")) {
-      artTemporizador.classList.remove("hidden");
-    } else {
-      artTemporizador.classList.add("hidden");
+      terminado.innerHTML += tareaFormato(tarea, index);
     }
   });
+  if (proceso.textContent && artTemporizador.classList.contains("hidden")) {
+    artTemporizador.classList.remove("hidden");
+  } else {
+    artTemporizador.classList.add("hidden");
+  }
 };
 
 function millisToMinutsAndSeconds(millis) {
@@ -145,7 +113,7 @@ btnSubir.addEventListener("click", () => {
   }
 });
 
-const formateoBotones = () => {
+const dropdownBtnsSetup = () => {
   const btnsDropdown = document.querySelectorAll(".dropdown-item");
   btnsDropdown.forEach((btn) => {
     let estado = btn.parentElement.parentElement.previousElementSibling;
@@ -171,6 +139,23 @@ const formateoBotones = () => {
   });
 };
 
+const flechaBtnSetup = () => {
+  const flechasBtns = document.querySelectorAll(".colocar");
+  flechasBtns.forEach((flecha) => {
+    flecha.addEventListener("click", (e) => {
+      let idTarea = e.currentTarget.nextElementSibling.children[0].dataset.id;
+      let tareaRef = tareas[idTarea];
+      tareas = tareas.filter((tarea, index) => {
+        if (index != idTarea) {
+          return tarea;
+        }
+      });
+      tareas.unshift(tareaRef);
+      mostrar();
+    });
+  });
+};
+
 const colorearBotones = () => {
   const btnsEstado = document.querySelectorAll(".btn-estado");
   if (btnsEstado) {
@@ -188,7 +173,8 @@ const colorearBotones = () => {
 
 const mostrar = () => {
   acomodar();
-  formateoBotones();
+  flechaBtnSetup();
+  dropdownBtnsSetup();
   colorearBotones();
 };
 
