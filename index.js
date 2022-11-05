@@ -9,7 +9,7 @@ const tiempo = document.querySelector(".tiempo");
 const artTemporizador = document.querySelector(".artTemporizdor");
 
 let tareas;
-let tiempoPomodoro = 1500000;
+let tiempoPomodoro = 10000;
 let estado = true;
 
 const tareaFormato = ({ titulo, texto, estado }, index) => {
@@ -30,7 +30,7 @@ const tareaFormato = ({ titulo, texto, estado }, index) => {
                       <ul class="dropdown-menu">
                         <li><button class="dropdown-item">Pendiente</button></li>
                         <li><button class="dropdown-item">En proceso</button></li>
-                        <li><button class="dropdown-item">Terminado</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Terminado</button></li>
                       </ul>
                   </div>
                 </div>
@@ -50,7 +50,7 @@ const acomodar = () => {
       terminado.innerHTML += tareaFormato(tarea, index);
     }
   });
-  if (proceso.textContent && artTemporizador.classList.contains("hidden")) {
+  if (proceso.textContent) {
     artTemporizador.classList.remove("hidden");
   } else {
     artTemporizador.classList.add("hidden");
@@ -61,6 +61,19 @@ function millisToMinutsAndSeconds(millis) {
   var minutes = Math.floor(millis / 60000);
   var seconds = ((millis % 60000) / 1000).toFixed(0);
   return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+}
+
+function sonarPajaros() {
+  var sonido = document.createElement("iframe");
+  console.log("empezado");
+  sonido.setAttribute("src", "campana_13.mp3");
+  document.body.appendChild(sonido);
+}
+
+function callarPajaros() {
+  console.log("terminado");
+  var iframe = document.getElementsByTagName("iframe");
+  iframe[0].parentNode.removeChild(iframe[0]);
 }
 
 function actualizarTiempo() {
@@ -74,7 +87,15 @@ function actualizarTiempo() {
 
   let temporizador = setInterval(() => {
     if (tiempoPomodoro == 0) {
+      clearInterval(temporizador);
+      tiempoPomodoro = 10000;
       alert("Se terminó el tiempo");
+      btnTemporizador.textContent = "Reanudar Temporizador";
+      actualizarTiempo();
+    } else if (tiempoPomodoro == 5000) {
+      console.log("Iniciando");
+      sonarPajaros();
+      tiempoPomodoro -= 1000;
     } else if (!estado) {
       clearInterval(temporizador);
       alert("El temporizador se ha pausado");
@@ -113,28 +134,40 @@ btnSubir.addEventListener("click", () => {
   }
 });
 
+const terminar = () => {
+  let terminarTareaBtn = document.querySelector(".terminarTarea");
+  terminarTareaBtn.addEventListener("click", () => {
+    for (let i = 0; i < tareas.length; i++) {
+      let titulo = JSON.parse(localStorage.getItem("terminando")).titulo;
+      if (titulo === tareas[i].titulo) tareas[i].estado = "Terminado";
+    }
+    localStorage.setItem("tareas", JSON.stringify(tareas));
+    mostrar();
+  });
+};
+
 const dropdownBtnsSetup = () => {
   const btnsDropdown = document.querySelectorAll(".dropdown-item");
   btnsDropdown.forEach((btn) => {
     let estado = btn.parentElement.parentElement.previousElementSibling;
+
     btn.addEventListener("click", () => {
       estado.textContent = btn.textContent;
-      if (btn.textContent === "Pendiente") {
-        estado.style.backgroundColor = "red";
-      } else if (btn.textContent === "En proceso") {
-        estado.style.backgroundColor = "orange";
-      } else {
-        estado.style.backgroundColor = "green";
-        alert("Se ha terminado la tarea");
-      }
       tareas = tareas.map((tarea, index) => {
         if (estado.dataset.id == index) {
-          tarea.estado = estado.textContent;
+          if (estado.textContent == "Terminado") {
+            localStorage.setItem("terminando", JSON.stringify(tarea));
+            terminar();
+            console.log("Terminado");
+          } else {
+            tarea.estado = estado.textContent;
+            console.log("otro");
+          }
         }
         return tarea;
       });
       localStorage.setItem("tareas", JSON.stringify(tareas));
-      location.reload();
+      mostrar();
     });
   });
 };
