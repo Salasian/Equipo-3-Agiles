@@ -31,12 +31,11 @@ body {
 }
 
 aside {
-  height: 90vh;
+  height: 91vh;
 }
 
 .campo-texto {
   resize: none;
-  width: inherit;
   height: 165px;
 }
 
@@ -70,4 +69,8 @@ aside {
   right: 0;
   top: 0;
   border-bottom-left-radius: 50px;
+}
+
+.toast-div {
+  right: 0;
 }

@@ -7,10 +7,18 @@ const terminado = document.querySelector(".terminado");
 const btnTemporizador = document.querySelector(".btn-temporizador");
 const tiempo = document.querySelector(".tiempo");
 const artTemporizador = document.querySelector(".artTemporizdor");
+const toast = document.querySelector(".toast");
+const toastBody = document.querySelector(".toast-body");
 
 let tareas;
 let tiempoPomodoro = 10000;
 let estado = true;
+
+const notify = (message) => {
+  toast.classList.toggle("hide");
+  toast.classList.toggle("show");
+  toastBody.textContent = message;
+};
 
 const tareaFormato = ({ titulo, texto, estado }, index) => {
   return `<div class="card m-2 box">
@@ -36,6 +44,8 @@ const tareaFormato = ({ titulo, texto, estado }, index) => {
                 </div>
               </div>`;
 };
+
+const restablecerTemp = () => {};
 
 const acomodar = () => {
   pendientes.innerHTML = "";
@@ -89,7 +99,7 @@ function actualizarTiempo() {
     if (tiempoPomodoro == 0) {
       clearInterval(temporizador);
       tiempoPomodoro = 10000;
-      alert("Se terminó el tiempo");
+      notify("Se terminó el tiempo");
       btnTemporizador.textContent = "Reanudar Temporizador";
       actualizarTiempo();
     } else if (tiempoPomodoro == 5000) {
@@ -125,12 +135,12 @@ btnSubir.addEventListener("click", () => {
       }
     });
     if (repetido) {
-      alert("Tarea con característica repetida");
+      notify("Tarea con característica repetida");
     } else {
       subir(contenido);
     }
   } else {
-    alert("Faltaron campos por rellenar");
+    notify("Faltaron campos por rellenar");
   }
 });
 
@@ -152,16 +162,22 @@ const dropdownBtnsSetup = () => {
     let estado = btn.parentElement.parentElement.previousElementSibling;
 
     btn.addEventListener("click", () => {
+      if (
+        estado.textContent.includes("En proceso") &&
+        btn.textContent.includes("Pendiente")
+      )
+        notify(
+          'La tarea "En progreso" se ha movido a "Pendientes" exitosamente'
+        );
+
       estado.textContent = btn.textContent;
       tareas = tareas.map((tarea, index) => {
         if (estado.dataset.id == index) {
           if (estado.textContent == "Terminado") {
             localStorage.setItem("terminando", JSON.stringify(tarea));
             terminar();
-            console.log("Terminado");
           } else {
             tarea.estado = estado.textContent;
-            console.log("otro");
           }
         }
         return tarea;
@@ -214,7 +230,7 @@ const mostrar = () => {
 const subir = (contenido) => {
   tareas.push(contenido);
   localStorage.setItem("tareas", JSON.stringify(tareas));
-  alert("Se registro la tarea correctamente");
+  notify("Se registro la tarea correctamente");
   mostrar();
 };
 

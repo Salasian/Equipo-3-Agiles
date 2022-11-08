@@ -57,17 +57,17 @@
               <button type="button" class="align-center btn btn-subir">
                 Subir tarea
               </button>
-              <div class="detalles mx-auto">
+              <div class="detalles mx-auto col-md-11">
                 <input
                   type="text"
                   placeholder="Título"
-                  class="campo-titulo p-2 m-2"
+                  class="campo-titulo p-2 m-2 col-md-11"
                   maxlength="15"
                 />
                 <textarea
                   type="text"
                   placeholder="Descripción"
-                  class="campo-texto p-2 m-2"
+                  class="campo-texto p-2 m-2 col-md-11"
                   maxlength="99"
                 ></textarea>
               </div>
@@ -145,6 +145,31 @@
           </div>
         </div>
       </div>
+      <!-- Termino de Modal -->
+      <!-- Toast -->
+      <div class="position-fixed bottom-0 p-3 col-md-2" style="z-index: 11">
+        <div
+          id="liveToast"
+          class="toast hide"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="..." />
+            <strong class="me-auto">Pom-Pom</strong>
+            <small>Just now</small>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="toast-body"></div>
+        </div>
+      </div>
+      <!-- Termino de Toast -->
     </main>
     <!-- Fin del Main -->
     <script src="index.js"></script>
