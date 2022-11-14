@@ -79,3 +79,7 @@ aside {
   pointer-events: none;
   opacity: 0.4;
 }
+
+.checked {
+  color: green;
+}

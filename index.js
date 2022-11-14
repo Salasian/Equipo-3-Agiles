@@ -13,6 +13,8 @@ const toast = document.querySelector(".toast");
 const toastBody = document.querySelector(".toast-body");
 const descanso = document.querySelector(".descanso");
 const btnOmitir = document.querySelector(".btn-omitir");
+const checkPomodoros = document.querySelector(".check-pomodoros");
+const checkDescansos = document.querySelector(".check-descansos");
 
 let tareas;
 let tiempoPomodoro = 10000;
@@ -60,6 +62,33 @@ const tareaFormato = ({ titulo, texto, estado, fecha }, index) => {
                   </div>
                 </div>
               </div>`;
+};
+
+const pomodoroCompletado = () => {
+  if (document.querySelector(".borrablePomodoro"))
+    checkPomodoros.removeChild(document.querySelector(".borrablePomodoro"));
+
+  let iconos = checkPomodoros.childElementCount;
+  if (iconos < 3) {
+    const icono = document.createElement("i");
+    icono.setAttribute("class", "bi bi-check-circle-fill checked");
+
+    checkPomodoros.appendChild(icono);
+
+    callarPajaros();
+  }
+};
+
+const descansoCompletado = () => {
+  if (document.querySelector(".borrableDescanso"))
+    checkDescansos.removeChild(document.querySelector(".borrableDescanso"));
+  let iconos = checkDescansos.childElementCount;
+  if (iconos < 3) {
+    const icono = document.createElement("i");
+    icono.setAttribute("class", "bi bi-check-circle checked");
+    checkDescansos.appendChild(icono);
+    callarPajaros();
+  }
 };
 
 btnOmitir.addEventListener("click", () => {
@@ -119,6 +148,7 @@ function millisToMinutsAndSeconds(millis) {
 function sonarPajaros() {
   var sonido = document.createElement("iframe");
   sonido.setAttribute("src", "campana_13.mp3");
+  sonido.setAttribute("class", "hidden");
   document.body.appendChild(sonido);
 }
 
@@ -148,6 +178,7 @@ function actualizarTiempo() {
         pomodoro = false;
         artOmitir.classList.remove("hidden");
         descansoPomodoro = 7000;
+        pomodoroCompletado();
       } else if (tiempoPomodoro == 5000) {
         sonarPajaros();
         tiempoPomodoro -= 1000;
@@ -165,6 +196,7 @@ function actualizarTiempo() {
         pomodoro = true;
         artOmitir.classList.add("hidden");
         tiempoPomodoro = 10000;
+        descansoCompletado();
       } else if (descansoPomodoro == 5000) {
         sonarPajaros();
         descansoPomodoro -= 1000;
