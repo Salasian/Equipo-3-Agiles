@@ -5,13 +5,19 @@ const pendientes = document.querySelector(".pendientes");
 const proceso = document.querySelector(".proceso");
 const terminado = document.querySelector(".terminado");
 const btnTemporizador = document.querySelector(".btn-temporizador");
+const btnRestablecer = document.querySelector(".btn-restablecer");
 const tiempo = document.querySelector(".tiempo");
 const artTemporizador = document.querySelector(".artTemporizdor");
+const artOmitir = document.querySelector(".artOmitir");
 const toast = document.querySelector(".toast");
 const toastBody = document.querySelector(".toast-body");
+const descanso = document.querySelector(".descanso");
+const btnOmitir = document.querySelector(".btn-omitir");
 
 let tareas;
 let tiempoPomodoro = 10000;
+let descansoPomodoro = 7000;
+let pomodoro = true;
 let estado = true;
 
 const notify = (message) => {
@@ -20,11 +26,22 @@ const notify = (message) => {
   toastBody.textContent = message;
 };
 
-const tareaFormato = ({ titulo, texto, estado }, index) => {
-  return `<div class="card m-2 box">
+const tareaFormato = ({ titulo, texto, estado, fecha }, index) => {
+  var options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return `<div class="card m-2 box ${estado === "Terminado" ? "disable" : ""}">
                 <div class="card-body">
                   <h5 class="card-title">${titulo}</h5>
                   <p class="card-text">${texto}</p>
+                  ${
+                    fecha
+                      ? new Date(fecha).toLocaleDateString("en-US", options)
+                      : ""
+                  }
                   <button class="btn-primary colocar"><i class="bi bi-arrow-up-circle"></i></button>
                   <div class="dropdown">
                       <button data-id=${index}
@@ -45,7 +62,33 @@ const tareaFormato = ({ titulo, texto, estado }, index) => {
               </div>`;
 };
 
-const restablecerTemp = () => {};
+btnOmitir.addEventListener("click", () => {
+  let omitirTiempo = document.querySelector(".omitirDescanso");
+  omitirTiempo.addEventListener("click", () => {
+    descansoPomodoro = 0;
+    artOmitir.classList.add("hidden");
+    if (btnTemporizador.textContent == "Reanudar Temporizador") {
+      actualizarTiempo();
+    }
+  });
+});
+
+btnRestablecer.addEventListener("click", () => {
+  let restablecerTiempoBtn = document.querySelector(".restablecerTiempo");
+  restablecerTiempoBtn.addEventListener("click", () => {
+    if (btnTemporizador.textContent == "Pausar Temporizador") {
+      btnTemporizador.textContent = "Restablecido (Reanudar)";
+      actualizarTiempo();
+    }
+    if (pomodoro) {
+      tiempoPomodoro = 10000;
+      tiempo.textContent = millisToMinutsAndSeconds(tiempoPomodoro);
+    } else {
+      descansoPomodoro = 7000;
+      descanso.textContent = millisToMinutsAndSeconds(descansoPomodoro);
+    }
+  });
+});
 
 const acomodar = () => {
   pendientes.innerHTML = "";
@@ -75,19 +118,22 @@ function millisToMinutsAndSeconds(millis) {
 
 function sonarPajaros() {
   var sonido = document.createElement("iframe");
-  console.log("empezado");
   sonido.setAttribute("src", "campana_13.mp3");
   document.body.appendChild(sonido);
 }
 
 function callarPajaros() {
-  console.log("terminado");
   var iframe = document.getElementsByTagName("iframe");
   iframe[0].parentNode.removeChild(iframe[0]);
 }
 
 function actualizarTiempo() {
+  tiempo.textContent = millisToMinutsAndSeconds(tiempoPomodoro);
+  descanso.textContent = millisToMinutsAndSeconds(descansoPomodoro);
   if (btnTemporizador.textContent == "Pausar Temporizador") {
+    btnTemporizador.textContent = "Reanudar Temporizador";
+    estado = false;
+  } else if (btnTemporizador.textContent == "Restablecido (Reanudar)") {
     btnTemporizador.textContent = "Reanudar Temporizador";
     estado = false;
   } else {
@@ -96,27 +142,47 @@ function actualizarTiempo() {
   }
 
   let temporizador = setInterval(() => {
-    if (tiempoPomodoro == 0) {
-      clearInterval(temporizador);
-      tiempoPomodoro = 10000;
-      notify("Se terminó el tiempo");
-      btnTemporizador.textContent = "Reanudar Temporizador";
-      actualizarTiempo();
-    } else if (tiempoPomodoro == 5000) {
-      console.log("Iniciando");
-      sonarPajaros();
-      tiempoPomodoro -= 1000;
-    } else if (!estado) {
-      clearInterval(temporizador);
-      alert("El temporizador se ha pausado");
-    } else {
-      tiempoPomodoro -= 1000;
+    if (pomodoro) {
+      if (tiempoPomodoro == 0) {
+        notify("Se terminó el tiempo");
+        pomodoro = false;
+        artOmitir.classList.remove("hidden");
+        descansoPomodoro = 7000;
+      } else if (tiempoPomodoro == 5000) {
+        sonarPajaros();
+        tiempoPomodoro -= 1000;
+      } else if (!estado) {
+        clearInterval(temporizador);
+        alert("El temporizador se ha pausado");
+      } else {
+        tiempoPomodoro -= 1000;
+      }
       tiempo.textContent = millisToMinutsAndSeconds(tiempoPomodoro);
+      console.log("pomodoro:", tiempoPomodoro);
+    } else if (pomodoro == false) {
+      if (descansoPomodoro == 0) {
+        notify("Se terminó el descanso");
+        pomodoro = true;
+        artOmitir.classList.add("hidden");
+        tiempoPomodoro = 10000;
+      } else if (descansoPomodoro == 5000) {
+        sonarPajaros();
+        descansoPomodoro -= 1000;
+      } else if (!estado) {
+        clearInterval(temporizador);
+        alert("El temporizador se ha pausado");
+      } else {
+        descansoPomodoro -= 1000;
+      }
+      descanso.textContent = millisToMinutsAndSeconds(descansoPomodoro);
+      console.log("descanso:", descanso);
     }
   }, 1000);
 }
 
-btnTemporizador.addEventListener("click", actualizarTiempo);
+btnTemporizador.addEventListener("click", () => {
+  actualizarTiempo();
+});
 
 btnSubir.addEventListener("click", () => {
   let repetido = false;
@@ -174,6 +240,7 @@ const dropdownBtnsSetup = () => {
       tareas = tareas.map((tarea, index) => {
         if (estado.dataset.id == index) {
           if (estado.textContent == "Terminado") {
+            tarea.fecha = new Date();
             localStorage.setItem("terminando", JSON.stringify(tarea));
             terminar();
           } else {

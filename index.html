@@ -38,7 +38,7 @@
         <article
           class="card d-flex align-items-center justify-content-center m-3"
         >
-          <h6>5:00</h6>
+          <h6 class="descanso">5:00</h6>
         </article>
       </section>
       <section
@@ -75,11 +75,28 @@
             <article
               class="card mt-3 p-2 align-items-center hidden artTemporizdor"
             >
+              <button type="button" class="align-center btn btn-temporizador">
+                Iniciar Temporizador
+              </button>
+            </article>
+            <article class="card mt-3 p-2 align-items-center artRestablecer">
               <button
                 type="button"
-                class="align-center btn bg-white btn-temporizador"
+                class="align-center btn btn-restablecer"
+                data-bs-toggle="modal"
+                data-bs-target="#modalRestablecer"
               >
-                Iniciar Temporizador
+                Restablecer Temporizador
+              </button>
+            </article>
+            <article class="card mt-3 p-2 align-items-center hidden artOmitir">
+              <button
+                type="button"
+                class="align-center btn btn-omitir"
+                data-bs-toggle="modal"
+                data-bs-target="#modalOmitir"
+              >
+                Omitir Descanso
               </button>
             </article>
           </div>
@@ -113,7 +130,7 @@
           </article>
         </div>
       </section>
-      <!-- Modal -->
+      <!-- Modal Terminar -->
       <div
         class="modal fade"
         id="exampleModal"
@@ -136,7 +153,7 @@
             <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary terminarTarea"
+                class="btn btn-secondary modalBtn terminarTarea"
                 data-bs-dismiss="modal"
               >
                 Terminar tarea
@@ -146,6 +163,72 @@
         </div>
       </div>
       <!-- Termino de Modal -->
+      <!-- Modal Restablecer -->
+      <div
+        class="modal fade"
+        id="modalRestablecer"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Acepta restablecer el tiempo</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary modalBtn restablecerTiempo"
+                data-bs-dismiss="modal"
+              >
+                Restablecer tiempo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Termino de Modal Restablecer -->
+      <!-- Modal Omitir -->
+      <div
+        class="modal fade"
+        id="modalOmitir"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Acepta omitir el descanso</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary modalBtn omitirDescanso"
+                data-bs-dismiss="modal"
+              >
+                Omitir descanso
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Termino de Modal Omitir -->
       <!-- Toast -->
       <div class="position-fixed bottom-0 p-3 col-md-2" style="z-index: 11">
         <div
@@ -156,8 +239,8 @@
           aria-atomic="true"
         >
           <div class="toast-header">
-            <img src="..." class="rounded me-2" alt="..." />
-            <strong class="me-auto">Pom-Pom</strong>
+            <i class="bi bi-bell"></i>
+            <strong class="me-auto m-2">Pom-Pom</strong>
             <small>Just now</small>
             <button
               type="button"

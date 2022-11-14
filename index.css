@@ -43,7 +43,7 @@ aside {
   width: 210px;
 }
 
-.btn-subir:hover {
+.btn:hover {
   background-color: darkgrey;
 }
 
@@ -73,4 +73,9 @@ aside {
 
 .toast-div {
   right: 0;
+}
+
+.disable {
+  pointer-events: none;
+  opacity: 0.4;
 }
