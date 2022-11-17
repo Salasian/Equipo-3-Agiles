@@ -17,6 +17,7 @@ const checkPomodoros = document.querySelector(".check-pomodoros");
 const checkDescansos = document.querySelector(".check-descansos");
 
 let tareas;
+let idTarea;
 let tiempoPomodoro = 10000;
 let descansoPomodoro = 7000;
 const DESCANSO = 7000;
@@ -49,7 +50,7 @@ const tareaFormato = ({ titulo, texto, estado, fecha }, index) => {
                   }
                   ${
                     estado != "Terminado"
-                      ? '<div class="lista-botones"><button class="btn-danger borrar" data-bs-toggle="modal" data-bs-target="#modalBorrar"><i class="bi bi-trash-fill"></i></button><button class="btn-primary colocar"><i class="bi bi-arrow-up-circle"></i></button><button class="btn-info editar" data-bs-toggle="modal" data-bs-target="#modalEditar"><i class="bi bi-pencil"></i></button></div>'
+                      ? `<div class="lista-botones"><button class="btn-danger borrar" data-bs-toggle="modal" data-bs-target="#modalBorrar"><i class="bi bi-trash-fill"></i></button><button class="btn-primary colocar"><i class="bi bi-arrow-up-circle"></i></button><button data-id=${index} class="btn-info editar" data-bs-toggle="modal" data-bs-target="#modalEditar"><i class="bi bi-pencil"></i></button></div>`
                       : ""
                   }
                   <div class="dropdown">
@@ -360,35 +361,40 @@ const borrarBtnSetup = () => {
   });
 };
 
+const handleEditBtnClick = (e) => {
+  // Cambiar tarea a modificar
+  idTarea = e.currentTarget.dataset.id;
+};
+
+const getNewTarea = () => {
+  let titulo = document.querySelector(".tituloTarea").value;
+  let texto = document.querySelector(".descripcionTarea").value;
+  let estado = tareas[idTarea].estado;
+
+  return { titulo, texto, estado };
+};
+
+const editarTareaModalSetup = () => {
+  let editarTarea = document.querySelector(".editarTarea");
+  editarTarea.addEventListener("click", () => {
+    const nuevaTarea = getNewTarea();
+
+    if (tareaRepetida(nuevaTarea)) {
+      notify("Tarea con característica repetida");
+    } else {
+      console.log(nuevaTarea, idTarea);
+      tareas[idTarea] = { ...nuevaTarea };
+      localStorage.setItem("tareas", JSON.stringify(tareas));
+      mostrar();
+    }
+  });
+};
+
 const editarBtnSetup = () => {
   const editarBtns = document.querySelectorAll(".editar");
+  // Agregar edit handle a cada tarea
   editarBtns.forEach((editar) => {
-    editar.addEventListener("click", (e) => {
-      let tareaModificada =
-        e.currentTarget.parentElement.nextElementSibling.children[0];
-      console.log(tareaModificada);
-      let idTarea = tareaModificada.dataset.id;
-      let estadoTarea = tareas[idTarea].estado;
-      console.log(idTarea);
-      let editarTarea = document.querySelector(".editarTarea");
-      editarTarea.addEventListener("click", () => {
-        let tituloTarea = document.querySelector(".tituloTarea");
-        let descripcionTarea = document.querySelector(".descripcionTarea");
-        const contenido = {
-          titulo: tituloTarea.value,
-          texto: descripcionTarea.value,
-          estado: estadoTarea,
-        };
-        if (tareaRepetida(contenido)) {
-          notify("Tarea con característica repetida");
-        } else {
-          console.log(contenido, idTarea);
-          tareas[idTarea] = { ...contenido };
-          localStorage.setItem("tareas", JSON.stringify(tareas));
-          mostrar();
-        }
-      });
-    });
+    editar.addEventListener("click", handleEditBtnClick);
   });
 };
 
@@ -422,6 +428,9 @@ const subir = (contenido) => {
   notify("Se registro la tarea correctamente");
   mostrar();
 };
+
+// Handler para modal submit
+editarTareaModalSetup();
 
 window.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("tareas")) {
