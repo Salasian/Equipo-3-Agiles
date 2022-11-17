@@ -147,7 +147,7 @@
       <!-- Modal Terminar -->
       <div
         class="modal fade"
-        id="exampleModal"
+        id="terminarModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -176,7 +176,40 @@
           </div>
         </div>
       </div>
-      <!-- Termino de Modal -->
+      <!-- Termino de Modal Terminar -->
+      <!-- Modal Borrar -->
+      <div
+        class="modal fade"
+        id="modalBorrar"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Acepta borrar esta tarea</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary modalBtn borrarTarea"
+                data-bs-dismiss="modal"
+              >
+                Borrar tarea
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Termino de Modal Borrar -->
       <!-- Modal Restablecer -->
       <div
         class="modal fade"
@@ -243,6 +276,59 @@
         </div>
       </div>
       <!-- Termino de Modal Omitir -->
+      <!-- Modal Editar -->
+      <div
+        class="modal fade"
+        id="modalEditar"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label"
+                  >Título:</label
+                >
+                <input
+                  type="text"
+                  class="form-control tituloTarea"
+                  id="recipient-name"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label"
+                  >Descripción:</label
+                >
+                <textarea
+                  class="form-control descripcionTarea"
+                  id="message-text"
+                ></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary modalBtn editarTarea"
+                data-bs-dismiss="modal"
+              >
+                Editar Tarea
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Termino de Modal Editar -->
       <!-- Toast -->
       <div class="position-fixed bottom-0 p-3 col-md-2" style="z-index: 11">
         <div

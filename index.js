@@ -19,6 +19,8 @@ const checkDescansos = document.querySelector(".check-descansos");
 let tareas;
 let tiempoPomodoro = 10000;
 let descansoPomodoro = 7000;
+const DESCANSO = 7000;
+const POMODORO = 10000;
 let pomodoro = true;
 let estado = true;
 
@@ -34,6 +36,7 @@ const tareaFormato = ({ titulo, texto, estado, fecha }, index) => {
     year: "numeric",
     month: "long",
     day: "numeric",
+    hour: "numeric",
   };
   return `<div class="card m-2 box ${estado === "Terminado" ? "disable" : ""}">
                 <div class="card-body">
@@ -44,7 +47,11 @@ const tareaFormato = ({ titulo, texto, estado, fecha }, index) => {
                       ? new Date(fecha).toLocaleDateString("en-US", options)
                       : ""
                   }
-                  <button class="btn-primary colocar"><i class="bi bi-arrow-up-circle"></i></button>
+                  ${
+                    estado != "Terminado"
+                      ? '<div class="lista-botones"><button class="btn-danger borrar" data-bs-toggle="modal" data-bs-target="#modalBorrar"><i class="bi bi-trash-fill"></i></button><button class="btn-primary colocar"><i class="bi bi-arrow-up-circle"></i></button><button class="btn-info editar" data-bs-toggle="modal" data-bs-target="#modalEditar"><i class="bi bi-pencil"></i></button></div>'
+                      : ""
+                  }
                   <div class="dropdown">
                       <button data-id=${index}
                         class="btn btn-secondary dropdown-toggle btn-estado "
@@ -57,7 +64,7 @@ const tareaFormato = ({ titulo, texto, estado, fecha }, index) => {
                       <ul class="dropdown-menu">
                         <li><button class="dropdown-item">Pendiente</button></li>
                         <li><button class="dropdown-item">En proceso</button></li>
-                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Terminado</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#terminarModal">Terminado</button></li>
                       </ul>
                   </div>
                 </div>
@@ -71,7 +78,10 @@ const pomodoroCompletado = () => {
   let iconos = checkPomodoros.childElementCount;
   if (iconos < 3) {
     const icono = document.createElement("i");
-    icono.setAttribute("class", "bi bi-check-circle-fill checked");
+    icono.setAttribute(
+      "class",
+      "bi bi-check-circle-fill borrablePomodoro checked"
+    );
 
     checkPomodoros.appendChild(icono);
 
@@ -85,7 +95,7 @@ const descansoCompletado = () => {
   let iconos = checkDescansos.childElementCount;
   if (iconos < 3) {
     const icono = document.createElement("i");
-    icono.setAttribute("class", "bi bi-check-circle checked");
+    icono.setAttribute("class", "bi bi-check-circle borrableDescanso checked");
     checkDescansos.appendChild(icono);
     callarPajaros();
   }
@@ -116,6 +126,22 @@ btnRestablecer.addEventListener("click", () => {
       descansoPomodoro = 7000;
       descanso.textContent = millisToMinutsAndSeconds(descansoPomodoro);
     }
+    let borrablePomodoro = document.querySelectorAll(".borrablePomodoro");
+    let borrableDescanso = document.querySelectorAll(".borrableDescanso");
+    borrablePomodoro.forEach((borrable) => {
+      if (borrable.classList.contains("checked")) {
+        borrable.classList.remove("checked");
+        console.log(borrable);
+      }
+    });
+    borrableDescanso.forEach((borrable) => {
+      if (borrable.classList.contains("checked")) {
+        borrable.classList.remove("checked");
+      }
+    });
+    pomodoro = true;
+    artOmitir.classList.add("hidden");
+    tiempoPomodoro = 10000;
   });
 });
 
@@ -124,7 +150,7 @@ const acomodar = () => {
   proceso.innerHTML = "";
   terminado.innerHTML = "";
   tareas.map((tarea, index) => {
-    if (tarea.estado === "Pendiente") {
+    if (tarea.estado.includes("Pendiente")) {
       pendientes.innerHTML += tareaFormato(tarea, index);
     } else if (tarea.estado === "En proceso") {
       proceso.innerHTML += tareaFormato(tarea, index);
@@ -177,7 +203,12 @@ function actualizarTiempo() {
         notify("Se terminó el tiempo");
         pomodoro = false;
         artOmitir.classList.remove("hidden");
-        descansoPomodoro = 7000;
+        let checkDescansos = document.querySelectorAll(".borrablePomodoro");
+        if (checkDescansos[1].classList.contains("checked")) {
+          descansoPomodoro = 3 * DESCANSO;
+        } else {
+          descansoPomodoro = DESCANSO;
+        }
         pomodoroCompletado();
       } else if (tiempoPomodoro == 5000) {
         sonarPajaros();
@@ -195,7 +226,7 @@ function actualizarTiempo() {
         notify("Se terminó el descanso");
         pomodoro = true;
         artOmitir.classList.add("hidden");
-        tiempoPomodoro = 10000;
+        tiempoPomodoro = POMODORO;
         descansoCompletado();
       } else if (descansoPomodoro == 5000) {
         sonarPajaros();
@@ -207,7 +238,7 @@ function actualizarTiempo() {
         descansoPomodoro -= 1000;
       }
       descanso.textContent = millisToMinutsAndSeconds(descansoPomodoro);
-      console.log("descanso:", descanso);
+      console.log("descanso:", descansoPomodoro);
     }
   }, 1000);
 }
@@ -216,23 +247,25 @@ btnTemporizador.addEventListener("click", () => {
   actualizarTiempo();
 });
 
+const tareaRepetida = (contenido) => {
+  hasMatch = Boolean(
+    tareas.find((tarea) => {
+      return (
+        tarea.titulo === contenido.titulo || tarea.texto === contenido.texto
+      );
+    })
+  );
+  return hasMatch;
+};
+
 btnSubir.addEventListener("click", () => {
-  let repetido = false;
   const contenido = {
     titulo: titulo.value,
     texto: texto.value,
     estado: "Pendiente",
   };
   if (contenido.titulo && contenido.estado && contenido.texto) {
-    tareas.filter((tarea) => {
-      if (
-        tarea.titulo === contenido.titulo ||
-        tarea.texto === contenido.texto
-      ) {
-        repetido = true;
-      }
-    });
-    if (repetido) {
+    if (tareaRepetida(contenido)) {
       notify("Tarea con característica repetida");
     } else {
       subir(contenido);
@@ -244,10 +277,16 @@ btnSubir.addEventListener("click", () => {
 
 const terminar = () => {
   let terminarTareaBtn = document.querySelector(".terminarTarea");
+  let titulo = JSON.parse(localStorage.getItem("modificando")).titulo;
   terminarTareaBtn.addEventListener("click", () => {
     for (let i = 0; i < tareas.length; i++) {
-      let titulo = JSON.parse(localStorage.getItem("terminando")).titulo;
-      if (titulo === tareas[i].titulo) tareas[i].estado = "Terminado";
+      if (titulo === tareas[i].titulo) {
+        tareas[i].estado = "Terminado";
+        tareas[i].fecha = new Date();
+        let tareaNueva = { ...tareas[i] };
+        tareas.splice(i, 1);
+        tareas.unshift(tareaNueva);
+      }
     }
     localStorage.setItem("tareas", JSON.stringify(tareas));
     mostrar();
@@ -272,8 +311,7 @@ const dropdownBtnsSetup = () => {
       tareas = tareas.map((tarea, index) => {
         if (estado.dataset.id == index) {
           if (estado.textContent == "Terminado") {
-            tarea.fecha = new Date();
-            localStorage.setItem("terminando", JSON.stringify(tarea));
+            localStorage.setItem("modificando", JSON.stringify(tarea));
             terminar();
           } else {
             tarea.estado = estado.textContent;
@@ -291,7 +329,8 @@ const flechaBtnSetup = () => {
   const flechasBtns = document.querySelectorAll(".colocar");
   flechasBtns.forEach((flecha) => {
     flecha.addEventListener("click", (e) => {
-      let idTarea = e.currentTarget.nextElementSibling.children[0].dataset.id;
+      let idTarea =
+        e.currentTarget.parentElement.nextElementSibling.children[0].dataset.id;
       let tareaRef = tareas[idTarea];
       tareas = tareas.filter((tarea, index) => {
         if (index != idTarea) {
@@ -299,7 +338,56 @@ const flechaBtnSetup = () => {
         }
       });
       tareas.unshift(tareaRef);
+      localStorage.setItem("tareas", JSON.stringify(tareas));
       mostrar();
+    });
+  });
+};
+
+const borrarBtnSetup = () => {
+  const borrarBtns = document.querySelectorAll(".borrar");
+  borrarBtns.forEach((borrar) => {
+    borrar.addEventListener("click", (e) => {
+      let idTarea =
+        e.currentTarget.parentElement.nextElementSibling.children[0].dataset.id;
+      let borrarTarea = document.querySelector(".borrarTarea");
+      borrarTarea.addEventListener("click", () => {
+        tareas.splice(idTarea, 1);
+        localStorage.setItem("tareas", JSON.stringify(tareas));
+        mostrar();
+      });
+    });
+  });
+};
+
+const editarBtnSetup = () => {
+  const editarBtns = document.querySelectorAll(".editar");
+  editarBtns.forEach((editar) => {
+    editar.addEventListener("click", (e) => {
+      let tareaModificada =
+        e.currentTarget.parentElement.nextElementSibling.children[0];
+      console.log(tareaModificada);
+      let idTarea = tareaModificada.dataset.id;
+      let estadoTarea = tareas[idTarea].estado;
+      console.log(idTarea);
+      let editarTarea = document.querySelector(".editarTarea");
+      editarTarea.addEventListener("click", () => {
+        let tituloTarea = document.querySelector(".tituloTarea");
+        let descripcionTarea = document.querySelector(".descripcionTarea");
+        const contenido = {
+          titulo: tituloTarea.value,
+          texto: descripcionTarea.value,
+          estado: estadoTarea,
+        };
+        if (tareaRepetida(contenido)) {
+          notify("Tarea con característica repetida");
+        } else {
+          console.log(contenido, idTarea);
+          tareas[idTarea] = { ...contenido };
+          localStorage.setItem("tareas", JSON.stringify(tareas));
+          mostrar();
+        }
+      });
     });
   });
 };
@@ -322,7 +410,9 @@ const colorearBotones = () => {
 const mostrar = () => {
   acomodar();
   flechaBtnSetup();
+  editarBtnSetup();
   dropdownBtnsSetup();
+  borrarBtnSetup();
   colorearBotones();
 };
 
