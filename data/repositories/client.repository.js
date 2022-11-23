@@ -2,14 +2,10 @@ import { Client } from "../models/Client.model.js";
 
 const register = async (value) => {
   if (!value) return new Error("Client is required");
-  const { userName, name, lastName, address, email, password } = value;
+  const { userName, password } = value;
   const client = await Client.create(
     {
       userName: userName,
-      name: name,
-      lastName: lastName,
-      address: address,
-      email: email,
       password: password,
     },
     {
@@ -23,13 +19,11 @@ const register = async (value) => {
 };
 
 const update = async (value) => {
-  const { idClient, userName, name, lastName, address } = value;
+  const { idClient, userName, password } = value;
   const updatedClient = await Client.update(
     {
       userName: userName,
-      name: name,
-      lastName: lastName,
-      address: address,
+      password: password,
     },
     {
       where: { idClient },
@@ -46,24 +40,13 @@ const deleteOne = async (value) => {
   return await Client.destroy({
     where: { idClient },
   });
-  // .then("Client deleted successfully")
-  // .catch(() => {
-  //   throw new Error("Error deleting client");
-  // });
 };
 
 const findOne = async (value) => {
   // if (!value) return new Error("Client is required");
   const { idClient } = value;
   const client = await Client.findOne({
-    attributes: [
-      "idClient",
-      "username",
-      "name",
-      "lastName",
-      "address",
-      "email",
-    ],
+    attributes: ["idClient", "username", "password"],
     where: {
       idClient,
     },
@@ -73,7 +56,7 @@ const findOne = async (value) => {
 
 const findAll = async () => {
   const client = await Client.findAll({
-    attributes: ["username", "name", "lastName", "address", "email"],
+    attributes: ["username", "password"],
   });
   return client;
 };

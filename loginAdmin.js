@@ -1,10 +1,12 @@
-import encriptar from "./encrypt";
+const usuario = document.querySelector(".usuario");
+const pass = document.querySelector(".pass");
+const btnIngresar = document.querySelector(".btnIngresar");
 
 let admin;
 let clients = [];
 
 const obtenerCredencialesAdmin = async () => {
-  await fetch("http://localhost:3000/auth/login", {
+  const response = await fetch("http://localhost:3000/auth/login", {
     method: "POST",
     mode: "cors",
     headers: {
@@ -13,15 +15,12 @@ const obtenerCredencialesAdmin = async () => {
     },
     body: JSON.stringify({
       //Aqui va el admin tuyo
-      usuario: "admin",
+      userName: "admin",
       password: "1234",
     }),
-  })
-    .then((response) => response.json())
-    .then((json) => {
-      console.log(json);
-      admin = json;
-    });
+  });
+  const data = await response.json();
+  console.log(data);
 };
 /*
 const consultarApiItems = () => {
@@ -45,7 +44,7 @@ const addFormListener = () => {
     e.preventDefault();
     const usuario = document.querySelector(".usuario").value;
     const pass = document.querySelector(".pass").value;
-    await fetch("http://localhost:3000/client", {
+    await fetch("http://localhost:3000/admin", {
       method: "POST",
       body: JSON.stringify({
         userName: usuario,
@@ -54,29 +53,14 @@ const addFormListener = () => {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        /*authorization: `Bearer ${admin.token}`,*/
+        authorization: `Bearer ${admin.token}`,
       },
     });
     itemForm.reset();
   };
 };
 
-const consultarApiItems = () => {
-  console.log("imprimir");
-  //Aqui debe hacer la peticion a la API
-  fetch("http://localhost:3000/client", {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      clients = data;
-      console.log(clients);
-    });
-};
-
-document.querySelector(".ImpUs").addEventListener("click", consultarApiItems);
-
 window.onload = () => {
-  //obtenerCredencialesAdmin();
   addFormListener();
+  obtenerCredencialesAdmin();
 };

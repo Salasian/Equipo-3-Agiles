@@ -16,22 +16,6 @@ export const Admin = sequelize.define(
       type: DataType.STRING(50),
       allowNull: false,
     },
-    name: {
-      type: DataType.STRING(30),
-      allowNull: false,
-    },
-    lastName: {
-      type: DataType.STRING(30),
-      allowNull: false,
-    },
-    email: {
-      type: DataType.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-      },
-    },
     password: {
       type: DataType.STRING(150),
       allowNull: false,
@@ -52,6 +36,4 @@ Admin.prototype.verifyPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-export const crearAdminTable = async () => {
-  await Admin.sync();
-};
+Admin.sync();
