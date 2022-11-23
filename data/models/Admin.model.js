@@ -36,4 +36,4 @@ Admin.prototype.verifyPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-Admin.sync();
+

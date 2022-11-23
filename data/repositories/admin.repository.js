@@ -6,7 +6,7 @@ const register = async (admin) => {
 
 const findAll = async () => {
   const admins = await Admin.findAll({
-    attributes: ["idAdmin", "username", "name", "lastName", "email"],
+    attributes: ["idAdmin", "userName", "password"],
   });
   return admins;
 };
@@ -16,7 +16,7 @@ const findOne = async (idAdmin) => {
     console.log("error");
   }
   const admin = await Admin.findOne({
-    attributes: ["idAdmin", "username", "name", "lastName", "email"],
+    attributes: ["idAdmin", "userName", "password"],
     where: { idAdmin: idAdmin },
   });
   return admin;
@@ -28,13 +28,11 @@ const deleteOne = async (idAdmin) => {
 };
 
 const update = async (newData) => {
-  const { idAdmin, userName, name, lastName, email } = newData;
+  const { idAdmin, userName, password } = newData;
   return await Admin.update(
     {
       userName,
-      name,
-      lastName,
-      email,
+      password,
     },
     {
       where: { idAdmin },

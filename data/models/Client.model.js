@@ -38,4 +38,4 @@ Client.prototype.verifyPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-Client.sync();
+
