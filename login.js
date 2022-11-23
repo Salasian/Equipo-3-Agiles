@@ -1,4 +1,4 @@
-import encriptar from "./encrypt";
+import encriptar from "./encrypt.js";
 
 let admin;
 let clients = [];

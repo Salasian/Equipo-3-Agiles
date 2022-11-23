@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import { genSalt } from "./node_modules/bcrypt/bcrypt.js";
 
 const encriptar = async (password) => {
   const salt = await bcrypt.genSalt(10);

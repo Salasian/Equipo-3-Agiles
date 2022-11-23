@@ -1,7 +1,6 @@
 import { check, validationResult } from "express-validator";
 
 const validationAuth = async (req, res, next) => {
-  console.log(" Pasó Validation Auth");
   await check("userName", "invalid userName").notEmpty().run(req);
   //   await check(
   //     "password",
@@ -11,7 +10,6 @@ const validationAuth = async (req, res, next) => {
   //     .run(req);
 
   let result = validationResult(req);
-  console.log(result);
   if (!result.isEmpty()) {
     return res.send(result);
   }
