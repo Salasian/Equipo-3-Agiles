@@ -16,7 +16,7 @@ const obtenerCredencialesAdmin = async () => {
     body: JSON.stringify({
       //Aqui va el admin tuyo
       userName: "admin",
-      password: "1234",
+      password: "Contra1234",
     }),
   });
   const data = await response.json();

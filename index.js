@@ -218,7 +218,33 @@ const subir = (contenido) => {
   mostrar();
 };
 
+const verificarToken = async () => {
+  const token = localStorage.getItem("tokenLogin")
+    ? JSON.parse(localStorage.getItem("tokenLogin"))
+    : null;
+  if (!token) location.href = "login.html";
+  await fetchValidToken(token);
+};
+
+const fetchValidToken = async (token) => {
+  try {
+    const response = await fetch(`http://localhost:3000/auth`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(token),
+    });
+    const result = await response.json();
+    if (!result.access) location.href = "login.html";
+  } catch (error) {
+    location.href = "login.html";
+  }
+};
+
 window.addEventListener("DOMContentLoaded", () => {
+  verificarToken();
   if (localStorage.getItem("tareas")) {
     tareas = JSON.parse(localStorage.getItem("tareas"));
     mostrar();

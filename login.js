@@ -1,42 +1,5 @@
-import encriptar from "./encrypt.js";
-
 let admin;
 let clients = [];
-
-const obtenerCredencialesAdmin = async () => {
-  await fetch("http://localhost:3000/auth/login", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-    body: JSON.stringify({
-      //Aqui va el admin tuyo
-      usuario: "admin",
-      password: "1234",
-    }),
-  })
-    .then((response) => response.json())
-    .then((json) => {
-      console.log(json);
-      admin = json;
-    });
-};
-/*
-const consultarApiItems = () => {
-  //Aqui debe hacer la peticion a la API
-  fetch("http://localhost:3000/client", {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      clients = data;
-      //llenarContenedorClients(items);
-    });
-};
-*/
 
 const addFormListener = () => {
   const itemForm = document.querySelector(".form_items");
@@ -54,7 +17,6 @@ const addFormListener = () => {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        /*authorization: `Bearer ${admin.token}`,*/
       },
     });
     itemForm.reset();
@@ -74,9 +36,36 @@ const consultarApiItems = () => {
     });
 };
 
+const logearCliente = async () => {
+  const usuario = document.querySelector(".usuario").value;
+  const pass = document.querySelector(".pass").value;
+  const res = await fetch("http://localhost:3000/auth/login", {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+    body: JSON.stringify({
+      //Aqui va el admin tuyo
+      userName: usuario,
+      password: pass,
+    }),
+  });
+  const { token } = await res.json();
+  console.log(token);
+  if (typeof token === "string") {
+    localStorage.setItem("tokenLogin", JSON.stringify(token));
+    location.href = "index.html";
+  } else {
+    console.log("Token Inválido (No String)");
+  }
+};
+
 document.querySelector(".ImpUs").addEventListener("click", consultarApiItems);
 
+document.querySelector(".btnIngresar").addEventListener("click", logearCliente);
+
 window.onload = () => {
-  //obtenerCredencialesAdmin();
   addFormListener();
 };

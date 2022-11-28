@@ -17,12 +17,6 @@ const registerClient = async (req, res, next) => {
     }
 
     const { userName, password } = req.body;
-    // if (!userName || !name || !lastName || !address || !email || !password) {
-    //     const error = new Error('Error');
-    //     error.httpStatusCode = 400;
-    //     next(error);
-    //     return;
-    // }
 
     const newClient = Client.build({
       userName,

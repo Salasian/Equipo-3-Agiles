@@ -7,8 +7,10 @@ const router = Router();
 
 router.post("/login", validationAuth.validationAuth, authController.login);
 
-router.get("/info", isAuthClient, authController.info);
+router.get("/info", authController.info);
 
 router.get("/adminInfo", isAuthAdmin, authController.info);
+
+router.get("/", isAuthClient, authController.validateToken);
 
 export default router;

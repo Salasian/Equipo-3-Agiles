@@ -2,20 +2,50 @@
 import { Client } from "../data/models/Client.model.js";
 import { Admin } from "../data/models/Admin.model.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
+const validateToken = async (req, res, next) => {
+  console.log("entró");
+  try {
+    const { token } = req.body;
+    const user = jwt.verify(token, process.env.SECRET_KEY_ADMIN);
+    if (!user) return res.status(403).json({ access: false });
+    res.status(200).json({ access: true });
+  } catch (error) {
+    res.status(500).json({ access: false });
+  }
+};
 
 const login = async (req, res, next) => {
-  console.log(req.body);
   try {
     if (!req.body) {
       return res.send({ message: "bad request" });
     }
 
     const { userName, password } = req.body;
-
     if (!userName || !password) {
       return res.send({ message: "bad request" });
     }
 
+    const admin = await Admin.findOne({ where: { userName: userName } });
+    const isValidPassword = await bcrypt.compareSync(password, admin.password);
+    if (admin) {
+      if (!isValidPassword) {
+        return res.send({ message: "incorrect password" });
+      }
+      const token = jwt.sign(
+        { idAdmin: admin.idAdmin, useraName: admin.userName },
+        process.env.SECRET_KEY_ADMIN,
+        {
+          expiresIn: "1d",
+        }
+      );
+      return res.send({
+        message: "successful Admin",
+        token: token,
+      });
+    }
+    console.log("no es un admin");
     const client = await Client.findOne({ where: { userName } });
     if (client) {
       //verificar contraseña del usuario
@@ -38,24 +68,6 @@ const login = async (req, res, next) => {
         token: token,
       });
     }
-
-    const admin = await Admin.findOne({ where: { userName } });
-    if (admin) {
-      if (!admin.verifyPassword(password)) {
-        return res.send({ message: "incorrect password" });
-      }
-      const token = jwt.sign(
-        { idAdmin: admin.idAdmin, useraName: admin.userName },
-        process.env.SECRET_KEY_ADMIN,
-        {
-          expiresIn: "1d",
-        }
-      );
-      return res.send({
-        message: "successful Admin",
-        token: token,
-      });
-    }
   } catch (error) {
     next(error);
   }
@@ -72,4 +84,5 @@ const infoAdmin = async (req, res) => {
 export default {
   login,
   info,
+  validateToken,
 };
