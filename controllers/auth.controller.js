@@ -5,12 +5,22 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 const validateToken = async (req, res, next) => {
-  console.log("entró");
   try {
     const { token } = req.body;
-    const user = jwt.verify(token, process.env.SECRET_KEY_ADMIN);
-    if (!user) return res.status(403).json({ access: false });
-    res.status(200).json({ access: true });
+    const userClient = jwt.verify(token, process.env.SECRET_KEY_CLIENT);
+    if (userClient) return res.status(200).json({ access: true });
+    res.status(403).json({ access: false });
+  } catch (error) {
+    res.status(500).json({ access: false });
+  }
+};
+
+const validateTokenAdmin = async (req, res, next) => {
+  try {
+    const { token } = req.body;
+    const userAdmin = jwt.verify(token, process.env.SECRET_KEY_ADMIN);
+    if (userAdmin) return res.status(200).json({ access: true });
+    res.status(403).json({ access: false });
   } catch (error) {
     res.status(500).json({ access: false });
   }
@@ -28,13 +38,16 @@ const login = async (req, res, next) => {
     }
 
     const admin = await Admin.findOne({ where: { userName: userName } });
-    const isValidPassword = await bcrypt.compareSync(password, admin.password);
     if (admin) {
+      const isValidPassword = await bcrypt.compareSync(
+        password,
+        admin.password
+      );
       if (!isValidPassword) {
         return res.send({ message: "incorrect password" });
       }
       const token = jwt.sign(
-        { idAdmin: admin.idAdmin, useraName: admin.userName },
+        { idAdmin: admin.idAdmin, userName: admin.userName },
         process.env.SECRET_KEY_ADMIN,
         {
           expiresIn: "1d",
@@ -85,4 +98,5 @@ export default {
   login,
   info,
   validateToken,
+  validateTokenAdmin,
 };

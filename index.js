@@ -222,24 +222,51 @@ const verificarToken = async () => {
   const token = localStorage.getItem("tokenLogin")
     ? JSON.parse(localStorage.getItem("tokenLogin"))
     : null;
-  if (!token) location.href = "login.html";
-  await fetchValidToken(token);
+  const tokenAdmin = localStorage.getItem("tokenAdmin")
+    ? JSON.parse(localStorage.getItem("tokenAdmin"))
+    : null;
+  if (!token && !tokenAdmin) location.href = "login.html";
+  if (token) await fetchValidToken(token);
+  else if (tokenAdmin) await fetchValidTokenAdmin(tokenAdmin);
 };
 
 const fetchValidToken = async (token) => {
   try {
+    console.log("entrando a validtoken");
     const response = await fetch(`http://localhost:3000/auth`, {
       method: "POST",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify(token),
+      body: JSON.stringify({
+        token: token,
+      }),
     });
     const result = await response.json();
     if (!result.access) location.href = "login.html";
   } catch (error) {
     location.href = "login.html";
+  }
+};
+const fetchValidTokenAdmin = async (token) => {
+  try {
+    const response = await fetch(`http://localhost:3000/auth/admin`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        token: token,
+      }),
+    });
+    const result = await response.json();
+    if (!result.access) location.href = "loginAdmin.html";
+  } catch (error) {
+    location.href = "loginAdmin.html";
   }
 };
 
