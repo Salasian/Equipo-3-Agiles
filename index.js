@@ -432,16 +432,6 @@ const subir = (contenido) => {
 // Handler para modal submit
 editarTareaModalSetup();
 
-window.addEventListener("DOMContentLoaded", () => {
-  verificarToken();
-  if (localStorage.getItem("tareas")) {
-    tareas = JSON.parse(localStorage.getItem("tareas"));
-    mostrar();
-  } else {
-    tareas = [];
-  }
-});
-
 const verificarToken = async () => {
   const token = localStorage.getItem("tokenLogin")
     ? JSON.parse(localStorage.getItem("tokenLogin"))
@@ -493,3 +483,13 @@ const fetchValidTokenAdmin = async (token) => {
     location.href = "loginAdmin.html";
   }
 };
+
+window.addEventListener("DOMContentLoaded", () => {
+  verificarToken();
+  if (localStorage.getItem("tareas")) {
+    tareas = JSON.parse(localStorage.getItem("tareas"));
+    mostrar();
+  } else {
+    tareas = [];
+  }
+});
