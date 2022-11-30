@@ -38,7 +38,7 @@
         <article
           class="card d-flex align-items-center justify-content-center m-3"
         >
-          <h6>5:00</h6>
+          <h6 class="descanso">5:00</h6>
         </article>
       </section>
       <section
@@ -57,17 +57,17 @@
               <button type="button" class="align-center btn btn-subir">
                 Subir tarea
               </button>
-              <div class="detalles mx-auto">
+              <div class="detalles mx-auto col-md-11">
                 <input
                   type="text"
                   placeholder="Título"
-                  class="campo-titulo p-2 m-2"
+                  class="campo-titulo p-2 m-2 col-md-11"
                   maxlength="15"
                 />
                 <textarea
                   type="text"
                   placeholder="Descripción"
-                  class="campo-texto p-2 m-2"
+                  class="campo-texto p-2 m-2 col-md-11"
                   maxlength="99"
                 ></textarea>
               </div>
@@ -75,12 +75,43 @@
             <article
               class="card mt-3 p-2 align-items-center hidden artTemporizdor"
             >
-              <button
-                type="button"
-                class="align-center btn bg-white btn-temporizador"
-              >
+              <button type="button" class="align-center btn btn-temporizador">
                 Iniciar Temporizador
               </button>
+            </article>
+            <article class="card mt-3 p-2 align-items-center artRestablecer">
+              <button
+                type="button"
+                class="align-center btn btn-restablecer"
+                data-bs-toggle="modal"
+                data-bs-target="#modalRestablecer"
+              >
+                Restablecer Temporizador
+              </button>
+            </article>
+            <article class="card mt-3 p-2 align-items-center hidden artOmitir">
+              <button
+                type="button"
+                class="align-center btn btn-omitir"
+                data-bs-toggle="modal"
+                data-bs-target="#modalOmitir"
+              >
+                Omitir Descanso
+              </button>
+            </article>
+            <article class="card mt-3 p-2 align-items-center">
+              <h3>Pomodoros</h3>
+              <div class="flex-column check-pomodoros">
+                <i class="bi bi-check-circle-fill borrablePomodoro"></i>
+                <i class="bi bi-check-circle-fill borrablePomodoro"></i>
+                <i class="bi bi-check-circle-fill borrablePomodoro"></i>
+              </div>
+              <h3>Descansos</h3>
+              <div class="flex-column check-descansos">
+                <i class="bi bi-check-circle borrableDescanso"></i>
+                <i class="bi bi-check-circle borrableDescanso"></i>
+                <i class="bi bi-check-circle borrableDescanso"></i>
+              </div>
             </article>
           </div>
         </section>
@@ -113,10 +144,10 @@
           </article>
         </div>
       </section>
-      <!-- Modal -->
+      <!-- Modal Terminar -->
       <div
         class="modal fade"
-        id="exampleModal"
+        id="terminarModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -136,7 +167,7 @@
             <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary terminarTarea"
+                class="btn btn-secondary modalBtn terminarTarea"
                 data-bs-dismiss="modal"
               >
                 Terminar tarea
@@ -145,6 +176,183 @@
           </div>
         </div>
       </div>
+      <!-- Termino de Modal Terminar -->
+      <!-- Modal Borrar -->
+      <div
+        class="modal fade"
+        id="modalBorrar"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Acepta borrar esta tarea</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary modalBtn borrarTarea"
+                data-bs-dismiss="modal"
+              >
+                Borrar tarea
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Termino de Modal Borrar -->
+      <!-- Modal Restablecer -->
+      <div
+        class="modal fade"
+        id="modalRestablecer"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Acepta restablecer el tiempo</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary modalBtn restablecerTiempo"
+                data-bs-dismiss="modal"
+              >
+                Restablecer tiempo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Termino de Modal Restablecer -->
+      <!-- Modal Omitir -->
+      <div
+        class="modal fade"
+        id="modalOmitir"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Acepta omitir el descanso</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary modalBtn omitirDescanso"
+                data-bs-dismiss="modal"
+              >
+                Omitir descanso
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Termino de Modal Omitir -->
+      <!-- Modal Editar -->
+      <div
+        class="modal fade"
+        id="modalEditar"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label"
+                  >Título:</label
+                >
+                <input
+                  type="text"
+                  class="form-control tituloTarea"
+                  id="recipient-name"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label"
+                  >Descripción:</label
+                >
+                <textarea
+                  class="form-control descripcionTarea"
+                  id="message-text"
+                ></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary modalBtn editarTarea"
+                data-bs-dismiss="modal"
+              >
+                Editar Tarea
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Termino de Modal Editar -->
+      <!-- Toast -->
+      <div class="position-fixed bottom-0 p-3 col-md-2" style="z-index: 11">
+        <div
+          id="liveToast"
+          class="toast hide"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div class="toast-header">
+            <i class="bi bi-bell"></i>
+            <strong class="me-auto m-2">Pom-Pom</strong>
+            <small>Just now</small>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="toast-body"></div>
+        </div>
+      </div>
+      <!-- Termino de Toast -->
     </main>
     <!-- Fin del Main -->
     <script src="index.js"></script>

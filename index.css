@@ -31,12 +31,11 @@ body {
 }
 
 aside {
-  height: 90vh;
+  height: 91vh;
 }
 
 .campo-texto {
   resize: none;
-  width: inherit;
   height: 165px;
 }
 
@@ -44,7 +43,7 @@ aside {
   width: 210px;
 }
 
-.btn-subir:hover {
+.btn:hover {
   background-color: darkgrey;
 }
 
@@ -70,4 +69,43 @@ aside {
   right: 0;
   top: 0;
   border-bottom-left-radius: 50px;
+
+  border-color: black;
+}
+
+.borrar {
+  position: absolute;
+  width: 40px;
+  height: 30px;
+  right: 0;
+  bottom: 0;
+  border: solid;
+  border-width: 2px;
+  border-left-width: 0.5px;
+  border-color: black;
+}
+
+.editar {
+  position: absolute;
+  width: 40px;
+  height: 30px;
+  right: 40px;
+  bottom: 0;
+  border: solid;
+  border-width: 2px;
+  border-right-width: 0.5px;
+  border-color: black;
+}
+
+.toast-div {
+  right: 0;
+}
+
+.disable {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.checked {
+  color: green;
 }
