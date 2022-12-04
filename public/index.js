@@ -485,7 +485,7 @@ const fetchValidTokenAdmin = async (token) => {
 };
 
 window.addEventListener("DOMContentLoaded", () => {
-  verificarToken();
+  //verificarToken();
   if (localStorage.getItem("tareas")) {
     tareas = JSON.parse(localStorage.getItem("tareas"));
     mostrar();

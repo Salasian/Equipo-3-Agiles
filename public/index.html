@@ -114,6 +114,18 @@
               </div>
             </article>
           </div>
+          <div id="chat-container">
+            <div id="chat-window">
+                <div id="output"></div>
+                <div id="actions"></div>
+            </div>
+            <input type="text" id="username" placeholder="Username">
+            <input type="text" id="message" placeholder="Message">
+            <button id = "send">Enviar</button>
+        </div>
+    
+        <script src="/socket.io/socket.io.js" charset="UTF-8"></script>
+        <script src="./chat.js" charset="UTF-8"></script>
         </section>
       </aside>
       <section class="col-md-10">
