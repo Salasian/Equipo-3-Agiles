@@ -433,6 +433,7 @@ const subir = (contenido) => {
 editarTareaModalSetup();
 
 const verificarToken = async () => {
+  console.log("hola");
   const token = localStorage.getItem("tokenLogin")
     ? JSON.parse(localStorage.getItem("tokenLogin"))
     : null;
@@ -485,7 +486,7 @@ const fetchValidTokenAdmin = async (token) => {
 };
 
 window.addEventListener("DOMContentLoaded", () => {
-  //verificarToken();
+  verificarToken();
   if (localStorage.getItem("tareas")) {
     tareas = JSON.parse(localStorage.getItem("tareas"));
     mostrar();
